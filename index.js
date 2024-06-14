@@ -21,20 +21,27 @@ app.use(express.json());
 
 async function run() {
   try {
-    // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
 
-    // API Home route
+    const medicareHub = client.db("medicare");
+    const usersCollection = medicareHub.collection("users");
+
+    app.post("/register", (req, res) => {
+      const user = req.body;
+      console.log(user);
+      user.status = "active"; // Default status for all new users
+      const result = usersCollection.insertOne(user);
+      res.send(result);
+    });
+
     app.get("/", (req, res) => {
       res.send("Hello from Medicare Hub Server");
     });
 
-    // API listening to the port
-    app.listen(port, (req, res) => {
+    app.listen(port, () => {
       console.log(`Server is running on port ${port}`);
     });
-    /*--------------------------------------------------------*/
-    // Send a ping to confirm a successful connection
+
     await client.db("admin").command({ ping: 1 });
     console.log(
       "Pinged your deployment. You successfully connected to MongoDB!"
