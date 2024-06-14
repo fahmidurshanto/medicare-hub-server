@@ -4,3 +4,9 @@
 - dotenv
 - cors
 - mongodb
+
+## Added Routes
+
+- / root
+- /register
+- /login

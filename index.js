@@ -25,20 +25,35 @@ async function run() {
 
     const medicareHub = client.db("medicare");
     const usersCollection = medicareHub.collection("users");
+    const districtsCollection = medicareHub.collection("districts");
+    const upazilasCollection = medicareHub.collection("upazilas");
 
+    // register route
     app.post("/register", (req, res) => {
       const user = req.body;
-      console.log(user);
       user.status = "active"; // Default status for all new users
       const result = usersCollection.insertOne(user);
       res.send(result);
+    });
+
+    app.get("/districts", async (req, res) => {
+      const cursor = districtsCollection.find();
+      const districts = await cursor.toArray();
+      res.send(districts);
+    });
+
+    app.get("/upazilas", async (req, res) => {
+      const cursor = upazilasCollection.find();
+      const upazilas = await cursor.toArray();
+      console.log(upazilas);
+      res.send(upazilas);
     });
 
     app.get("/", (req, res) => {
       res.send("Hello from Medicare Hub Server");
     });
 
-    app.listen(port, () => {
+    app.listen(port, (req, res) => {
       console.log(`Server is running on port ${port}`);
     });
 
