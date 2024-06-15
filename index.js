@@ -17,7 +17,15 @@ const client = new MongoClient(uri, {
   },
 });
 
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://skill-bridge-6471c.firebaseapp.com",
+    ],
+    credentials: true,
+  })
+);
 app.use(express.json());
 // Error handling middleware
 app.use((err, req, res, next) => {
