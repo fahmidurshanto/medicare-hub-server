@@ -50,18 +50,30 @@ async function run() {
       res.send(result);
     });
 
+    // user status update api route
+    app.patch("/users/:id", (req, res) => {
+      const userId = req.params.id;
+      const query = { _id: new ObjectId(userId) };
+      const updatedUser = req.body;
+      const result = usersCollection.updateOne(query, { $set: updatedUser });
+      res.send(result);
+    });
+
+    // districts get route
     app.get("/districts", async (req, res) => {
       const cursor = districtsCollection.find();
       const districts = await cursor.toArray();
       res.send(districts);
     });
 
+    // upazila's get route
     app.get("/upazilas", async (req, res) => {
       const cursor = upazilasCollection.find();
       const upazilas = await cursor.toArray();
       res.send(upazilas);
     });
 
+    // api home route
     app.get("/", (req, res) => {
       res.send("Hello from Medicare Hub Server");
     });
