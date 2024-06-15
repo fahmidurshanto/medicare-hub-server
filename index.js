@@ -3,7 +3,7 @@ const app = express();
 const cors = require("cors");
 require("dotenv").config();
 const port = process.env.PORT || 5000;
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 
 const uri = `mongodb+srv://${process.env.USER}:${process.env.PASSWORD}@clustercrud.ctitxen.mongodb.net/?retryWrites=true&w=majority&appName=clusterCrud`;
 
@@ -36,9 +36,17 @@ async function run() {
       res.send(result);
     });
 
+    // all users get route
     app.get("/users", async (req, res) => {
       const result = await usersCollection.find().toArray();
-      console.log(result);
+      res.send(result);
+    });
+
+    // single user details get route
+    app.get("/users/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await usersCollection.findOne(query);
       res.send(result);
     });
 
