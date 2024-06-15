@@ -29,10 +29,16 @@ async function run() {
     const upazilasCollection = medicareHub.collection("upazilas");
 
     // register route
-    app.post("/register", (req, res) => {
+    app.post("/users", (req, res) => {
       const user = req.body;
       user.status = "active"; // Default status for all new users
       const result = usersCollection.insertOne(user);
+      res.send(result);
+    });
+
+    app.get("/users", async (req, res) => {
+      const result = await usersCollection.find().toArray();
+      console.log(result);
       res.send(result);
     });
 
@@ -45,7 +51,6 @@ async function run() {
     app.get("/upazilas", async (req, res) => {
       const cursor = upazilasCollection.find();
       const upazilas = await cursor.toArray();
-      console.log(upazilas);
       res.send(upazilas);
     });
 
