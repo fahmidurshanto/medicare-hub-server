@@ -20,8 +20,8 @@ const client = new MongoClient(uri, {
 app.use(
   cors({
     origin: [
-      "http://localhost:5173",
-      "https://skill-bridge-6471c.firebaseapp.com",
+      "https://medicare-hub.web.app/",
+      "https://medicare-hub.firebaseapp.com",
     ],
     credentials: true,
   })
@@ -169,9 +169,9 @@ async function run() {
       console.log(`Server is running on port ${port}`);
     });
 
-    await client.db("admin").command({ ping: 1 });
-    console.log(
-      "Pinged your deployment. You successfully connected to MongoDB!"
+    // await client.db("admin").command({ ping: 1 });
+    // console.log(
+      // "Pinged your deployment. You successfully connected to MongoDB!"
     );
   } finally {
     // Ensures that the client will close when you finish/error
